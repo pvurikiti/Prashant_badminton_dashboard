@@ -70,7 +70,8 @@ if not df.empty:
     with col4:
         st.metric(label="WIN RATE", value=f"{win_rate:.1f}%")
 
-    st.markdown("<br>", unsafe_allowed_html=True)
+    # Native gap spacing without using breaking HTML strings
+    st.write("")
 
     # --- MIDDLE ROW: THE GRAPHICS ---
     chart_col1, chart_col2 = st.columns([1, 1])
@@ -79,7 +80,7 @@ if not df.empty:
         st.subheader("📊 Win / Loss Ratio Split")
         if not filtered_df.empty and total_matches > 0:
             res_counts = filtered_df["result"].value_counts().reset_index()
-            res_counts.columns = ["result", "count"] # Robust column safety mapping
+            res_counts.columns = ["result", "count"]
             
             fig_pie = px.pie(
                 res_counts, 
@@ -122,7 +123,6 @@ if not df.empty:
     st.subheader("📈 Tournament Performance Timeline")
     
     if not filtered_df.empty:
-        # Sort by index grouping safely without crashing on missing key lookups
         timeline_data = filtered_df.groupby(["tournament", "result"], sort=False).size().unstack(fill_value=0).reset_index()
         
         fig_line = go.Figure()
