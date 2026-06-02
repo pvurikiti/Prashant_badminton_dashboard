@@ -12,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for a premium dark-themed aesthetic
+# Custom CSS for a premium dark-themed aesthetic (Left-walled alignment to protect compiler)
 st.markdown("""
 <style>
 .main .block-container { padding-top: 2rem; }
@@ -29,9 +29,11 @@ def load_data():
             data = json.load(f)
         df = pd.DataFrame(data)
         
-        # Clean data structures for better chart processing
-        df['result'] = df['result'].str.capitalize()
-        df['event'] = df['event'].str.replace(r'[\(\)]', '', regex=True).str.strip()
+        # Standardize strings for seamless data grouping
+        df['result'] = df['result'].fillna("").str.capitalize().str.strip()
+        df['event'] = df['event'].fillna("").str.replace(r'[\(\)]', '', regex=True).str.strip()
+        df['partner'] = df['partner'].fillna("None")
+        df['opponents'] = df['opponents'].fillna("Unknown")
         return df
     except Exception as e:
         st.error(f"Error loading JSON data structure: {e}")
@@ -84,73 +86,80 @@ if not df.empty:
 
     with chart_col1:
         st.subheader("📊 Win / Loss Ratio Split")
-        res_counts = filtered_df["result"].value_counts().reset_index()
-        fig_pie = px.pie(
-            res_counts, 
-            values="count", 
-            names="result", 
-            hole=0.55,
-            color="result",
-            color_discrete_map={"Win": "#00f2fe", "Loss": "#ff4b4b"},
-            template="plotly_dark"
-        )
-        fig_pie.update_traces(textposition='inside', textinfo='percent+label', marker=dict(line=dict(color='#111', width=2)))
-        fig_pie.update_layout(showlegend=False, margin=dict(t=10, b=10, l=10, r=10), height=320)
-        st.plotly_chart(fig_pie, use_container_width=True)
+        if not filtered_df.empty and total_matches > 0:
+            res_counts = filtered_df["result"].value_counts().reset_index()
+            res_counts.columns = ["result", "count"] # Robust column safety mapping
+            
+            fig_pie = px.pie(
+                res_counts, 
+                values="count", 
+                names="result", 
+                hole=0.55,
+                color="result",
+                color_discrete_map={"Win": "#00f2fe", "Loss": "#ff4b4b"},
+                template="plotly_dark"
+            )
+            fig_pie.update_traces(textposition='inside', textinfo='percent+label', marker=dict(line=dict(color='#111', width=2)))
+            fig_pie.update_layout(showlegend=False, margin=dict(t=10, b=10, l=10, r=10), height=320)
+            st.plotly_chart(fig_pie, use_container_width=True)
+        else:
+            st.info("No records match current filter metrics.")
 
     with chart_col2:
         st.subheader("🔥 Match Outings by Division")
-        fig_bar = px.bar(
-            filtered_df, 
-            y="event", 
-            color="result",
-            color_discrete_map={"Win": "#00f2fe", "Loss": "#ff4b4b"},
-            orientation="h",
-            template="plotly_dark",
-            category_orders={"result": ["Win", "Loss"]}
-        )
-        fig_bar.update_layout(
-            xaxis_title="Match Count",
-            yaxis_title=None,
-            legend_title=None,
-            margin=dict(t=10, b=10, l=10, r=10),
-            height=320,
-            barmode="stack"
-        )
-        st.plotly_chart(fig_bar, use_container_width=True)
+        if not filtered_df.empty:
+            fig_bar = px.bar(
+                filtered_df, 
+                y="event", 
+                color="result",
+                color_discrete_map={"Win": "#00f2fe", "Loss": "#ff4b4b"},
+                orientation="h",
+                template="plotly_dark",
+                category_orders={"result": ["Win", "Loss"]}
+            )
+            fig_bar.update_layout(
+                xaxis_title="Match Count",
+                yaxis_title=None,
+                legend_title=None,
+                margin=dict(t=10, b=10, l=10, r=10),
+                height=320,
+                barmode="stack"
+            )
+            st.plotly_chart(fig_bar, use_container_width=True)
 
     # --- ROW 3: TOURNEY TIMELINE PERFORMANCES ---
     st.subheader("📈 Tournament Performance Timeline")
     
-    # Calculate performance over time sequences
-    timeline_data = filtered_df.groupby(["tournament", "result"], sort=False).size().unstack(fill_value=0).reset_index()
-    
-    fig_line = go.Figure()
-    if "Win" in timeline_data.columns:
-        fig_line.add_trace(go.Scatter(
-            x=timeline_data["tournament"], 
-            y=timeline_data["Win"],
-            mode='lines+markers',
-            name='Wins',
-            line=dict(color='#00f2fe', width=3),
-            marker=dict(size=8, color='#fff', line=dict(color='#00f2fe', width=2))
-        ))
-    if "Loss" in timeline_data.columns:
-        fig_line.add_trace(go.Bar(
-            x=timeline_data["tournament"],
-            y=timeline_data["Loss"],
-            name='Losses',
-            marker_color='rgba(255, 75, 75, 0.4)',
-        ))
-    
-    fig_line.update_layout(
-        template="plotly_dark",
-        margin=dict(t=20, b=40, l=20, r=20),
-        height=350,
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-        barmode='group'
-    )
-    st.plotly_chart(fig_line, use_container_width=True)
+    if not filtered_df.empty:
+        # Sort by index grouping safely without crashing on missing key lookups
+        timeline_data = filtered_df.groupby(["tournament", "result"], sort=False).size().unstack(fill_value=0).reset_index()
+        
+        fig_line = go.Figure()
+        if "Win" in timeline_data.columns:
+            fig_line.add_trace(go.Scatter(
+                x=timeline_data["tournament"], 
+                y=timeline_data["Win"],
+                mode='lines+markers',
+                name='Wins',
+                line=dict(color='#00f2fe', width=3),
+                marker=dict(size=8, color='#fff', line=dict(color='#00f2fe', width=2))
+            ))
+        if "Loss" in timeline_data.columns:
+            fig_line.add_trace(go.Bar(
+                x=timeline_data["tournament"],
+                y=timeline_data["Loss"],
+                name='Losses',
+                marker_color='rgba(255, 75, 75, 0.4)',
+            ))
+        
+        fig_line.update_layout(
+            template="plotly_dark",
+            margin=dict(t=20, b=40, l=20, r=20),
+            height=350,
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+            barmode='group'
+        )
+        st.plotly_chart(fig_line, use_container_width=True)
 
     # --- BOTTOM ROW: SEARCHABLE LEDGER MATRIX ---
     st.subheader("📋 Searchable Interactive Match Ledger")
