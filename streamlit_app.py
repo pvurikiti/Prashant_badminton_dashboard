@@ -14,11 +14,11 @@ st.set_page_config(
 
 # Custom CSS for a premium dark-themed aesthetic
 st.markdown("""
-    <style>
-    .main .block-container { padding-top: 2rem; }
-    div[data-testid="stMetricValue"] { font-size: 2.2rem; font-weight: 700; color: #00f2fe; }
-    div[data-testid="stMetricLabel"] { font-size: 1rem; letter-spacing: 0.5px; }
-    </style>
+<style>
+.main .block-container { padding-top: 2rem; }
+div[data-testid="stMetricValue"] { font-size: 2.2rem; font-weight: 700; color: #00f2fe; }
+div[data-testid="stMetricLabel"] { font-size: 1rem; letter-spacing: 0.5px; }
+</style>
 """, unsafe_allowed_html=True)
 
 # 1. Load Data safely
