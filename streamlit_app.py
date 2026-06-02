@@ -30,8 +30,8 @@ def load_data():
         
         # --- ROBUST TELEMETRY NORMALIZATION MATRIX ---
         def parse_advanced_features(row):
-            event_upper = str(row.get('event', '')).upper()
-            round_upper = str(row.get('round', '')).upper()
+            event_upper = str(row.get('event', '')).upper().strip()
+            round_upper = str(row.get('round', '')).upper().strip()
             
             # 1. Category Mapping
             cat = "Other"
@@ -42,14 +42,23 @@ def load_data():
             elif ("MEN" in event_upper and "SINGLE" in event_upper) or "MS" in event_upper:
                 cat = "Men's Singles"
                 
-            # 2. Division Mapping
+            # 2. Division Mapping (Fixed to prioritize standalone codes over text container matches)
             div = "Other"
-            if "C" in event_upper:
+            # Explicitly capture shorthand flight codes first
+            if "CXD" in event_upper or "CMD" in event_upper or "CMS" in event_upper or "XD C" in event_upper or "C MIXED" in event_upper or "C MEN" in event_upper:
                 div = "C"
-            elif "D" in event_upper:
+            elif "DXD" in event_upper or "DMD" in event_upper or "DMS" in event_upper or "XD D" in event_upper or "D MIXED" in event_upper or "D MEN" in event_upper:
                 div = "D"
-            elif "E" in event_upper:
+            elif "EXD" in event_upper or "EMD" in event_upper or "EMS" in event_upper or "XD E" in event_upper or "E MIXED" in event_upper or "E MEN" in event_upper or "E SINGLE" in event_upper:
                 div = "E"
+            else:
+                # Fallback if no clean block is found, checking for standalone letters
+                if " C " in f" {event_upper} " or "C" == event_upper:
+                    div = "C"
+                elif " D " in f" {event_upper} " or "D" == event_upper:
+                    div = "D"
+                elif " E " in f" {event_upper} " or "E" == event_upper:
+                    div = "E"
             
             # 3. Bracket Type Mapping (MAINS vs CONS)
             bracket = "MAINS"
