@@ -25,36 +25,55 @@ def load_data():
         df['partner'] = df['partner'].fillna("None")
         df['opponents'] = df['opponents'].fillna("Unknown")
         
-        # Extract Year from the date string (e.g., "Apr 13 2024 to..." -> 2024)
+        # Extract Year from the date string
         df['year'] = df['date'].str.extract(r'(\d{4})').fillna("Unknown")
         
-        # --- ROBUST EVENT NORMALIZATION MATRIX ---
-        def parse_category_and_division(event_str):
-            event_upper = str(event_str).upper()
+        # --- ROBUST TELEMETRY NORMALIZATION MATRIX ---
+        def parse_advanced_features(row):
+            event_upper = str(row.get('event', '')).upper()
+            round_upper = str(row.get('round', '')).upper()
             
-            # Default fallbacks
+            # 1. Category Mapping
             cat = "Other"
-            div = "Open"
-            
-            # 1. Determine Category
             if "MIXED" in event_upper or "XD" in event_upper:
                 cat = "Mixed Doubles"
-            elif "MEN" in event_upper and "DOUBLE" in event_upper or "MD" in event_upper:
+            elif ("MEN" in event_upper and "DOUBLE" in event_upper) or "MD" in event_upper:
                 cat = "Men's Doubles"
-            elif "MEN" in event_upper and "SINGLE" in event_upper or "MS" in event_upper:
+            elif ("MEN" in event_upper and "SINGLE" in event_upper) or "MS" in event_upper:
                 cat = "Men's Singles"
                 
-            # 2. Determine Division
+            # 2. Division Mapping
+            div = "Other"
             if "C" in event_upper:
                 div = "C"
             elif "D" in event_upper:
                 div = "D"
             elif "E" in event_upper:
                 div = "E"
+            
+            # 3. Bracket Type Mapping (MAINS vs CONS)
+            bracket = "MAINS"
+            if "CONSOLATION" in round_upper or "CONS" in round_upper:
+                bracket = "CONS"
                 
-            return pd.Series([cat, div])
+            # 4. Round Stage Standardization
+            stage = "Other"
+            if "64" in round_upper:
+                stage = "R64"
+            elif "32" in round_upper:
+                stage = "R32"
+            elif "16" in round_upper:
+                stage = "R16"
+            elif "QUARTER" in round_upper or "QF" in round_upper:
+                stage = "QF"
+            elif "SEMI" in round_upper or "SF" in round_upper:
+                stage = "SF"
+            elif "FINAL" in round_upper or round_upper == "F":
+                stage = "F"
+                
+            return pd.Series([cat, div, bracket, stage])
 
-        df[['standard_category', 'standard_division']] = df['event'].apply(parse_category_and_division)
+        df[['standard_category', 'standard_division', 'bracket_type', 'standard_round']] = df.apply(parse_advanced_features, axis=1)
         return df
     except Exception as e:
         st.error(f"Error loading JSON data structure: {e}")
@@ -66,23 +85,20 @@ if not df.empty:
     # --- SIDEBAR FILTERS ---
     st.sidebar.header("🎯 Dashboard Filters")
     
-    # 1. Filter by Year
-    all_years = ["All"] + sorted(df["year"].unique().tolist(), reverse=True)
-    selected_year = st.sidebar.selectbox("📅 Choose Year", all_years)
+    selected_year = st.sidebar.selectbox("📅 Choose Year", ["All"] + sorted(df["year"].unique().tolist(), reverse=True))
+    selected_tournament = st.sidebar.selectbox("🏆 Choose Tournament", ["All"] + sorted(df["tournament"].unique().tolist()))
+    selected_category = st.sidebar.selectbox("🏸 Choose Category", ["All"] + sorted(df["standard_category"].unique().tolist()))
+    selected_division = st.sidebar.selectbox("🎖️ Choose Division", ["All"] + sorted(df["standard_division"].unique().tolist()))
     
-    # 2. Filter by Tournament
-    all_tournaments = ["All"] + sorted(df["tournament"].unique().tolist())
-    selected_tournament = st.sidebar.selectbox("🏆 Choose Tournament", all_tournaments)
+    # New Filter: Bracket Track Type
+    selected_bracket = st.sidebar.selectbox("🌿 Choose Bracket Track", ["All", "MAINS", "CONS"])
     
-    # 3. Standardized Category Filter
-    all_categories = ["All"] + sorted(df["standard_category"].unique().tolist())
-    selected_category = st.sidebar.selectbox("🏸 Choose Category", all_categories)
-    
-    # 4. Standardized Division Filter
-    all_divisions = ["All"] + sorted(df["standard_division"].unique().tolist())
-    selected_division = st.sidebar.selectbox("🎖️ Choose Division", all_divisions)
+    # New Filter: Standardized Round Stage
+    round_order = ["R64", "R32", "R16", "QF", "SF", "F", "Other"]
+    available_rounds = ["All"] + [r for r in round_order if r in df["standard_round"].unique()]
+    selected_round = st.sidebar.selectbox("⌛ Choose Round Stage", available_rounds)
 
-    # Apply Sidebar Filter Logic Cascades
+    # Filter Logic Cascades
     filtered_df = df.copy()
     if selected_year != "All":
         filtered_df = filtered_df[filtered_df["year"] == selected_year]
@@ -92,6 +108,10 @@ if not df.empty:
         filtered_df = filtered_df[filtered_df["standard_category"] == selected_category]
     if selected_division != "All":
         filtered_df = filtered_df[filtered_df["standard_division"] == selected_division]
+    if selected_bracket != "All":
+        filtered_df = filtered_df[filtered_df["bracket_type"] == selected_bracket]
+    if selected_round != "All":
+        filtered_df = filtered_df[filtered_df["standard_round"] == selected_round]
 
     # --- HEADER ---
     st.title("🏸 Prashant's Badminton Performance Insights")
@@ -151,37 +171,63 @@ if not df.empty:
                 st.info("No records match your selected filter cascade.")
 
         with chart_col2:
-            st.markdown("#### Distribution by Standardized Division")
+            st.markdown("#### Win Percentage per Event Division")
             if total_matches > 0:
-                fig_bar = px.bar(
-                    filtered_df, 
-                    x="standard_division", 
-                    color="result",
-                    color_discrete_map={"Win": "#00f2fe", "Loss": "#ff4b4b"},
-                    template="plotly_dark",
-                    category_orders={"standard_division": ["C", "D", "E"], "result": ["Win", "Loss"]}
-                )
-                fig_bar.update_layout(xaxis_title="Division", yaxis_title="Matches", legend_title=None, height=280)
-                st.plotly_chart(fig_bar, use_container_width=True)
+                # Calculate Win % mathematically per Event Division grouping
+                div_stats = filtered_df.groupby("standard_division")["result"].value_counts().unstack(fill_value=0).reset_index()
+                if "Win" not in div_stats.columns: div_stats["Win"] = 0
+                if "Loss" not in div_stats.columns: div_stats["Loss"] = 0
+                
+                div_stats["Total"] = div_stats["Win"] + div_stats["Loss"]
+                div_stats["WIN_PCT"] = (div_stats["Win"] / div_stats["Total"] * 100).round(1)
+                
+                # Sort explicitly by flight priority ranking
+                div_stats["sort_idx"] = div_stats["standard_division"].map({"C": 0, "D": 1, "E": 2}).fillna(3)
+                div_stats = div_stats.sort_values("sort_idx")
 
-        # Timeline performance breakdown
+                fig_pct = px.bar(
+                    div_stats,
+                    x="standard_division",
+                    y="WIN_PCT",
+                    text=div_stats["WIN_PCT"].apply(lambda x: f"{x}%"),
+                    color="standard_division",
+                    color_discrete_sequence=["#00f2fe", "#a3e5fc", "#3a86c8"],
+                    template="plotly_dark"
+                )
+                fig_pct.update_layout(
+                    xaxis_title="Division Tier",
+                    yaxis_title="Win Percentage (%)",
+                    yaxis=dict(range=[0, 105]),
+                    showlegend=False,
+                    height=280
+                )
+                fig_pct.update_traces(textposition="outside", cliponaxis=False)
+                st.plotly_chart(fig_pct, use_container_width=True)
+
+        # Timeline performance volume tracking
         st.markdown("#### Performance Volume Over Time")
-        timeline_data = filtered_df.groupby(["tournament", "result"], sort=False).size().unstack(fill_value=0).reset_index()
-        fig_line = go.Figure()
-        if "Win" in timeline_data.columns:
+        if total_matches > 0:
+            timeline_data = filtered_df.groupby(["tournament", "result"], sort=False).size().unstack(fill_value=0).reset_index()
+            if "Win" not in timeline_data.columns: timeline_data["Win"] = 0
+            if "Loss" not in timeline_data.columns: timeline_data["Loss"] = 0
+            
+            fig_line = go.Figure()
             fig_line.add_trace(go.Scatter(x=timeline_data["tournament"], y=timeline_data["Win"], mode='lines+markers', name='Wins', line=dict(color='#00f2fe', width=3)))
-        if "Loss" in timeline_data.columns:
             fig_line.add_trace(go.Bar(x=timeline_data["tournament"], y=timeline_data["Loss"], name='Losses', marker_color='rgba(255, 75, 75, 0.4)'))
-        fig_line.update_layout(template="plotly_dark", height=280, barmode='group', margin=dict(t=10, b=10, l=10, r=10))
-        st.plotly_chart(fig_line, use_container_width=True)
+            fig_line.update_layout(template="plotly_dark", height=280, barmode='group', margin=dict(t=10, b=10, l=10, r=10))
+            st.plotly_chart(fig_line, use_container_width=True)
 
     # ================= TAB 2: ALL WINS =================
     with tab_wins:
         st.markdown("#### 🟢 Complete Victory Ledger")
         wins_df = filtered_df[filtered_df["result"] == "Win"]
         st.metric(label="Total Wins in View", value=len(wins_df))
+        
+        # Format mapping configuration columns
+        wins_display = wins_df.copy()
+        wins_display.columns = wins_display.columns.str.upper()
         st.dataframe(
-            wins_df[["year", "tournament", "standard_category", "standard_division", "round", "partner", "opponents", "score"]],
+            wins_display[["YEAR", "TOURNAMENT", "STANDARD_CATEGORY", "STANDARD_DIVISION", "BRACKET_TYPE", "STANDARD_ROUND", "PARTNER", "OPPONENTS", "SCORE"]],
             use_container_width=True, hide_index=True
         )
 
@@ -190,8 +236,11 @@ if not df.empty:
         st.markdown("#### 🔴 Complete Defeat Ledger")
         losses_df = filtered_df[filtered_df["result"] == "Loss"]
         st.metric(label="Total Losses in View", value=len(losses_df))
+        
+        losses_display = losses_df.copy()
+        losses_display.columns = losses_display.columns.str.upper()
         st.dataframe(
-            losses_df[["year", "tournament", "standard_category", "standard_division", "round", "partner", "opponents", "score"]],
+            losses_display[["YEAR", "TOURNAMENT", "STANDARD_CATEGORY", "STANDARD_DIVISION", "BRACKET_TYPE", "STANDARD_ROUND", "PARTNER", "OPPONENTS", "SCORE"]],
             use_container_width=True, hide_index=True
         )
 
@@ -199,10 +248,8 @@ if not df.empty:
     with tab_h2h:
         st.markdown("#### ⚔️ Opponent Matchup Telemetry")
         
-        # Build an interactive list of unique individual opponent names
         opp_list = set()
         for opps in df["opponents"].unique():
-            # Split clean pairings separated by '&' or 'vs'
             for names in str(opps).split("&"):
                 opp_list.add(names.strip())
                 
@@ -210,7 +257,6 @@ if not df.empty:
         selected_opp = st.selectbox("🎯 Select/Type Opponent Name to Query:", sorted_opponents)
         
         if selected_opp:
-            # Query if selected opponent string is found anywhere inside opponent column layer
             h2h_df = df[df["opponents"].str.contains(selected_opp, case=False, na=False)]
             
             h2h_total = len(h2h_df)
@@ -223,16 +269,33 @@ if not df.empty:
             h2h_col3.metric("Your Losses", h2h_losses)
             
             st.markdown(f"##### Encounter History Matrix vs. {selected_opp}")
+            h2h_display = h2h_df.copy()
+            h2h_display.columns = h2h_display.columns.str.upper()
             st.dataframe(
-                h2h_df[["year", "tournament", "standard_category", "standard_division", "round", "partner", "opponents", "score", "result"]],
+                h2h_display[["YEAR", "TOURNAMENT", "STANDARD_CATEGORY", "STANDARD_DIVISION", "BRACKET_TYPE", "STANDARD_ROUND", "PARTNER", "OPPONENTS", "SCORE", "RESULT"]],
                 use_container_width=True, hide_index=True
             )
 
     # --- GLOBAL DATA LEDGER SEARCH FOOTER ---
     st.markdown("---")
-    st.subheader("📋 Filtered Match Registry")
+    st.subheader("📋 FILTERED MATCH REGISTRY")
+    
+    # Map exact column names uppercase to match your explicit design
+    registry_df = filtered_df.copy()
+    registry_df = registry_df.rename(columns={
+        "year": "YEAR",
+        "tournament": "TOURNAMENT",
+        "standard_category": "CATEGORY",
+        "standard_division": "DIVISION",
+        "standard_round": "ROUND",
+        "bracket_type": "TRACK",
+        "partner": "PARTNER",
+        "opponents": "OPPONENTS",
+        "score": "SCORE RESULT"
+    })
+    
     st.dataframe(
-        filtered_df[["year", "tournament", "standard_category", "standard_division", "round", "partner", "opponents", "score", "result"]],
+        registry_df[["YEAR", "TOURNAMENT", "CATEGORY", "DIVISION", "TRACK", "ROUND", "PARTNER", "OPPONENTS", "SCORE RESULT", "RESULT"]],
         use_container_width=True,
         hide_index=True
     )
