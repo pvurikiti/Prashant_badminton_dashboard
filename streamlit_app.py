@@ -174,7 +174,9 @@ if not df.empty:
             st.markdown("#### Win Percentage per Event Division")
             if total_matches > 0:
                 # Calculate Win % mathematically per Event Division grouping
-                div_stats = filtered_df.groupby("standard_division")["result"].value_counts().unstack(fill_value=0).reset_index()
+                div_stats = filtered_df.groupby("standard_division", as_index=False)["result"].value_counts()
+                div_stats = div_stats.pivot(index="standard_division", columns="result", values="count").fillna(0).reset_index()
+                
                 if "Win" not in div_stats.columns: div_stats["Win"] = 0
                 if "Loss" not in div_stats.columns: div_stats["Loss"] = 0
                 
@@ -223,11 +225,14 @@ if not df.empty:
         wins_df = filtered_df[filtered_df["result"] == "Win"]
         st.metric(label="Total Wins in View", value=len(wins_df))
         
-        # Format mapping configuration columns
-        wins_display = wins_df.copy()
-        wins_display.columns = wins_display.columns.str.upper()
+        # Standardize and map titles in all caps safely
+        wins_display = wins_df.rename(columns={
+            "year": "YEAR", "tournament": "TOURNAMENT", "standard_category": "CATEGORY",
+            "standard_division": "DIVISION", "bracket_type": "TRACK", "standard_round": "ROUND",
+            "partner": "PARTNER", "opponents": "OPPONENTS", "score": "SCORE RESULT"
+        })
         st.dataframe(
-            wins_display[["YEAR", "TOURNAMENT", "STANDARD_CATEGORY", "STANDARD_DIVISION", "BRACKET_TYPE", "STANDARD_ROUND", "PARTNER", "OPPONENTS", "SCORE"]],
+            wins_display[["YEAR", "TOURNAMENT", "CATEGORY", "DIVISION", "TRACK", "ROUND", "PARTNER", "OPPONENTS", "SCORE RESULT"]],
             use_container_width=True, hide_index=True
         )
 
@@ -237,10 +242,13 @@ if not df.empty:
         losses_df = filtered_df[filtered_df["result"] == "Loss"]
         st.metric(label="Total Losses in View", value=len(losses_df))
         
-        losses_display = losses_df.copy()
-        losses_display.columns = losses_display.columns.str.upper()
+        losses_display = losses_df.rename(columns={
+            "year": "YEAR", "tournament": "TOURNAMENT", "standard_category": "CATEGORY",
+            "standard_division": "DIVISION", "bracket_type": "TRACK", "standard_round": "ROUND",
+            "partner": "PARTNER", "opponents": "OPPONENTS", "score": "SCORE RESULT"
+        })
         st.dataframe(
-            losses_display[["YEAR", "TOURNAMENT", "STANDARD_CATEGORY", "STANDARD_DIVISION", "BRACKET_TYPE", "STANDARD_ROUND", "PARTNER", "OPPONENTS", "SCORE"]],
+            losses_display[["YEAR", "TOURNAMENT", "CATEGORY", "DIVISION", "TRACK", "ROUND", "PARTNER", "OPPONENTS", "SCORE RESULT"]],
             use_container_width=True, hide_index=True
         )
 
@@ -269,10 +277,13 @@ if not df.empty:
             h2h_col3.metric("Your Losses", h2h_losses)
             
             st.markdown(f"##### Encounter History Matrix vs. {selected_opp}")
-            h2h_display = h2h_df.copy()
-            h2h_display.columns = h2h_display.columns.str.upper()
+            h2h_display = h2h_df.rename(columns={
+                "year": "YEAR", "tournament": "TOURNAMENT", "standard_category": "CATEGORY",
+                "standard_division": "DIVISION", "bracket_type": "TRACK", "standard_round": "ROUND",
+                "partner": "PARTNER", "opponents": "OPPONENTS", "score": "SCORE RESULT", "result": "RESULT"
+            })
             st.dataframe(
-                h2h_display[["YEAR", "TOURNAMENT", "STANDARD_CATEGORY", "STANDARD_DIVISION", "BRACKET_TYPE", "STANDARD_ROUND", "PARTNER", "OPPONENTS", "SCORE", "RESULT"]],
+                h2h_display[["YEAR", "TOURNAMENT", "CATEGORY", "DIVISION", "TRACK", "ROUND", "PARTNER", "OPPONENTS", "SCORE RESULT", "RESULT"]],
                 use_container_width=True, hide_index=True
             )
 
@@ -280,9 +291,8 @@ if not df.empty:
     st.markdown("---")
     st.subheader("📋 FILTERED MATCH REGISTRY")
     
-    # Map exact column names uppercase to match your explicit design
-    registry_df = filtered_df.copy()
-    registry_df = registry_df.rename(columns={
+    # Map exact column names uppercase to match your design parameters flawlessly
+    registry_df = filtered_df.rename(columns={
         "year": "YEAR",
         "tournament": "TOURNAMENT",
         "standard_category": "CATEGORY",
@@ -291,7 +301,8 @@ if not df.empty:
         "bracket_type": "TRACK",
         "partner": "PARTNER",
         "opponents": "OPPONENTS",
-        "score": "SCORE RESULT"
+        "score": "SCORE RESULT",
+        "result": "RESULT" # Fixes the KeyError crash perfectly
     })
     
     st.dataframe(
