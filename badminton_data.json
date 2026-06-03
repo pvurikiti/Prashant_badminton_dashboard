@@ -1956,5 +1956,82 @@
     "opponents": "Trinity Nguyen & Dylan Chen",
     "score": "16-21, 21-16, 12-21",
     "result": "Loss"
+  },
+  {
+    "tournament": "Haunted Hallows Stanford Tournament",
+    "date": "Oct 26 2025",
+    "location": "Stanford, U.S.A.",
+    "event": "Men's Doubles (EMD)",
+    "partner": "Vish Ramesh",
+    "round": "Group B Match 1",
+    "opponents": "Andrew Ho & Jackie Wu",
+    "score": "21-9, 21-7",
+    "result": "Win"
+  },
+  {
+    "tournament": "Haunted Hallows Stanford Tournament",
+    "date": "Oct 26 2025",
+    "location": "Stanford, U.S.A.",
+    "event": "Men's Doubles (EMD)",
+    "partner": "Vish Ramesh",
+    "round": "Group B Match 2",
+    "opponents": "Darren Tran & Nam Duong",
+    "score": "22-24, 22-24",
+    "result": "Loss"
+  },
+  {
+    "tournament": "Haunted Hallows Stanford Tournament",
+    "date": "Oct 26 2025",
+    "location": "Stanford, U.S.A.",
+    "event": "Men's Doubles (EMD)",
+    "partner": "Vish Ramesh",
+    "round": "Semi final",
+    "opponents": "Vincent Nguyen & Revant Kasichainula",
+    "score": "21-16, 21-17",
+    "result": "Win"
+  },
+  {
+    "tournament": "Haunted Hallows Stanford Tournament",
+    "date": "Oct 26 2025",
+    "location": "Stanford, U.S.A.",
+    "event": "Men's Doubles (EMD)",
+    "partner": "Vish Ramesh",
+    "round": "Final",
+    "opponents": "Darren Tran & Nam Duong",
+    "score": "21-16, 18-21, 22-20",
+    "result": "Win"
+  },
+  {
+    "tournament": "Haunted Hallows Stanford Tournament",
+    "date": "Oct 26 2025",
+    "location": "Stanford, U.S.A.",
+    "event": "Mixed Doubles (EXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Quarter final",
+    "opponents": "Brion Ye & Helena Xu",
+    "score": "21-12, 21-16",
+    "result": "Win"
+  },
+  {
+    "tournament": "Haunted Hallows Stanford Tournament",
+    "date": "Oct 26 2025",
+    "location": "Stanford, U.S.A.",
+    "event": "Mixed Doubles (EXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Semi final",
+    "opponents": "Vish Ramesh & Aishwarya Bahudhanam",
+    "score": "21-19, 18-21, 22-20",
+    "result": "Win"
+  },
+  {
+    "tournament": "Haunted Hallows Stanford Tournament",
+    "date": "Oct 26 2025",
+    "location": "Stanford, U.S.A.",
+    "event": "Mixed Doubles (EXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Final",
+    "opponents": "Matthew Trinh & Mara Aungurencei",
+    "score": "Walkover",
+    "result": "Win"
   }
 ]
