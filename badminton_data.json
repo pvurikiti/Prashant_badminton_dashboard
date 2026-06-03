@@ -2440,5 +2440,60 @@
     "opponents": "Lei Wang & Shufeng Huang",
     "score": "9-21, 14-21",
     "result": "Loss"
+  },
+  {
+    "tournament": "PHHS Summer Open 2024",
+    "date": "Jul 20 2024",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (DXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 32",
+    "opponents": "Kevin Follo & Jin Cho",
+    "score": "21-15, 21-10",
+    "result": "Win"
+  },
+  {
+    "tournament": "PHHS Summer Open 2024",
+    "date": "Jul 20 2024",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (DXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 16",
+    "opponents": "Joshua Yeung & Trinity Nguyen",
+    "score": "13-21, 21-16, 8-21",
+    "result": "Loss"
+  },
+  {
+    "tournament": "PHHS Summer Open 2024",
+    "date": "Jul 20 2024",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (CXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 32",
+    "opponents": "Alex Zhang & Linxi Liu",
+    "score": "Walkover",
+    "result": "Win"
+  },
+  {
+    "tournament": "PHHS Summer Open 2024",
+    "date": "Jul 20 2024",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (CXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 16",
+    "opponents": "Arnab Pramanik & Monica Vaduguru",
+    "score": "21-14, 21-15",
+    "result": "Win"
+  },
+  {
+    "tournament": "PHHS Summer Open 2024",
+    "date": "Jul 20 2024",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (CXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Quarter final",
+    "opponents": "Eric Xue & Felicia Jiang",
+    "score": "19-21, 21-19, 18-21",
+    "result": "Loss"
   }
 ]
