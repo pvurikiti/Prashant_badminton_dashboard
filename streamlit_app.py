@@ -22,8 +22,13 @@ def load_data():
         
         # Standardize basic results
         df['result'] = df['result'].fillna("").str.capitalize().str.strip()
+        
+        # FIX CASE SENSITIVITY: Standardize partner names to Title Case to group duplicates
         df['partner'] = df['partner'].fillna("None").astype(str).replace(r'^\s*$', 'None', regex=True).str.strip()
-        df['opponents'] = df['opponents'].fillna("Unknown")
+        df['partner'] = df['partner'].apply(lambda x: "None" if x == "None" else x.title())
+        
+        # FIX CASE SENSITIVITY: Standardize opponent combinations to Title Case
+        df['opponents'] = df['opponents'].fillna("Unknown").astype(str).str.title().str.strip()
         
         # Extract Year from the date string
         df['year'] = df['date'].str.extract(r'(\d{4})').fillna("Unknown")
@@ -99,7 +104,7 @@ if not df.empty:
     selected_category = st.sidebar.selectbox("🏸 Choose Category", ["All"] + sorted(df["standard_category"].unique().tolist()))
     selected_division = st.sidebar.selectbox("🎖️ Choose Division", ["All"] + sorted(df["standard_division"].unique().tolist()))
     
-    # New Filter: Partner Selection Filter
+    # Partner Selection Filter (Clean and Deduplicated via Title Case normalization above)
     partner_roster = sorted([p for p in df["partner"].unique() if p != "None"])
     partner_options = ["All", "None (Singles)"] + partner_roster
     selected_partner = st.sidebar.selectbox("🤝 Choose Partner", partner_options)
@@ -277,7 +282,8 @@ if not df.empty:
         opp_list = set()
         for opps in df["opponents"].unique():
             for names in str(opps).split("&"):
-                opp_list.add(names.strip())
+                # Clean and Title Case every single parsed opponent name to avoid duplicate list variants
+                opp_list.add(names.strip().title())
                 
         sorted_opponents = sorted(list(opp_list))
         selected_opp = st.selectbox("🎯 Select/Type Opponent Name to Query:", sorted_opponents)
@@ -320,7 +326,7 @@ if not df.empty:
         "partner": "PARTNER",
         "opponents": "OPPONENTS",
         "score": "SCORE RESULT",
-        "result": "RESULT" # Fixes the KeyError crash perfectly
+        "result": "RESULT"
     })
     
     st.dataframe(
