@@ -22,7 +22,7 @@ def load_data():
         
         # Standardize basic results
         df['result'] = df['result'].fillna("").str.capitalize().str.strip()
-        df['partner'] = df['partner'].fillna("None")
+        df['partner'] = df['partner'].fillna("None").astype(str).replace(r'^\s*$', 'None', regex=True).str.strip()
         df['opponents'] = df['opponents'].fillna("Unknown")
         
         # Extract Year from the date string
@@ -99,6 +99,11 @@ if not df.empty:
     selected_category = st.sidebar.selectbox("🏸 Choose Category", ["All"] + sorted(df["standard_category"].unique().tolist()))
     selected_division = st.sidebar.selectbox("🎖️ Choose Division", ["All"] + sorted(df["standard_division"].unique().tolist()))
     
+    # New Filter: Partner Selection Filter
+    partner_roster = sorted([p for p in df["partner"].unique() if p != "None"])
+    partner_options = ["All", "None (Singles)"] + partner_roster
+    selected_partner = st.sidebar.selectbox("🤝 Choose Partner", partner_options)
+    
     # New Filter: Bracket Track Type
     selected_bracket = st.sidebar.selectbox("🌿 Choose Bracket Track", ["All", "MAINS", "CONS"])
     
@@ -117,6 +122,10 @@ if not df.empty:
         filtered_df = filtered_df[filtered_df["standard_category"] == selected_category]
     if selected_division != "All":
         filtered_df = filtered_df[filtered_df["standard_division"] == selected_division]
+    if selected_partner == "None (Singles)":
+        filtered_df = filtered_df[filtered_df["partner"] == "None"]
+    elif selected_partner != "All":
+        filtered_df = filtered_df[filtered_df["partner"] == selected_partner]
     if selected_bracket != "All":
         filtered_df = filtered_df[filtered_df["bracket_type"] == selected_bracket]
     if selected_round != "All":
