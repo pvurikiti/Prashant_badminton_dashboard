@@ -2495,5 +2495,82 @@
     "opponents": "Eric Xue & Felicia Jiang",
     "score": "19-21, 21-19, 18-21",
     "result": "Loss"
+  },
+  {
+    "tournament": "PHHS Summer Open 2026",
+    "date": "Jul 11 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (DXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 16",
+    "opponents": "Hoilong Tam & Tina Shi",
+    "score": "21-18, 19-21, 21-19",
+    "result": "Win"
+  },
+  {
+    "tournament": "PHHS Summer Open 2026",
+    "date": "Jul 11 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (DXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Quarter final",
+    "opponents": "Austin Chen & Annie Lim",
+    "score": "17-21, 17-21",
+    "result": "Loss"
+  },
+  {
+    "tournament": "PHHS Summer Open 2026",
+    "date": "Jul 11 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (CXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 16",
+    "opponents": "Anush Uthira & Kelly Yau",
+    "score": "15-21, 10-21",
+    "result": "Loss"
+  },
+  {
+    "tournament": "PHHS Summer Open 2026",
+    "date": "Jul 11 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (CXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Consolation round of 16",
+    "opponents": "Austin Chen & Nadia Yip",
+    "score": "16-21",
+    "result": "Loss"
+  },
+  {
+    "tournament": "PHHS Summer Open 2026",
+    "date": "Jul 12 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Men's Doubles (DMD)",
+    "partner": "Vish Ramesh",
+    "round": "Round of 32",
+    "opponents": "Zijun Chen & Kinwing Tam",
+    "score": "Walkover",
+    "result": "Win"
+  },
+  {
+    "tournament": "PHHS Summer Open 2026",
+    "date": "Jul 12 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Men's Doubles (DMD)",
+    "partner": "Vish Ramesh",
+    "round": "Round of 16",
+    "opponents": "Sean Wang & Lordphone Wen",
+    "score": "21-17, 16-21, 21-16",
+    "result": "Win"
+  },
+  {
+    "tournament": "PHHS Summer Open 2026",
+    "date": "Jul 12 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Men's Doubles (DMD)",
+    "partner": "Vish Ramesh",
+    "round": "Quarter final",
+    "opponents": "Ploy Racha & Tuan Tran",
+    "score": "20-22, 14-21",
+    "result": "Loss"
   }
 ]
