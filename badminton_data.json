@@ -1,5 +1,93 @@
 [
   {
+    "tournament": "Sonic Smash 2026 (CA)",
+    "date": "Jul 31 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Men's Doubles (EMD)",
+    "partner": "Vish Ramesh",
+    "round": "Round of 32",
+    "opponents": "Isaac Wu & Jeffrey Huang",
+    "score": "21-13, 21-14",
+    "result": "Win"
+  },
+  {
+    "tournament": "Sonic Smash 2026 (CA)",
+    "date": "Aug 1 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Men's Doubles (EMD)",
+    "partner": "Vish Ramesh",
+    "round": "Round of 16",
+    "opponents": "Calvin Lam & Jeff Wang",
+    "score": "15-21, 12-21",
+    "result": "Loss"
+  },
+  {
+    "tournament": "Sonic Smash 2026 (CA)",
+    "date": "Jul 31 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (EXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 64",
+    "opponents": "Yuhan Tang & Jing You",
+    "score": "21-12, 21-17",
+    "result": "Win"
+  },
+  {
+    "tournament": "Sonic Smash 2026 (CA)",
+    "date": "Jul 31 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (EXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 32",
+    "opponents": "Jiayi Wang & Keke Hu",
+    "score": "21-15, 21-6",
+    "result": "Win"
+  },
+  {
+    "tournament": "Sonic Smash 2026 (CA)",
+    "date": "Aug 1 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (EXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 16",
+    "opponents": "Charlie Yang & Vicky Wang",
+    "score": "22-24, 21-10, 21-18",
+    "result": "Win"
+  },
+  {
+    "tournament": "Sonic Smash 2026 (CA)",
+    "date": "Aug 1 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (EXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Quarter final",
+    "opponents": "Michael Ewy & Leanne Gip",
+    "score": "21-16, 21-13",
+    "result": "Win"
+  },
+  {
+    "tournament": "Sonic Smash 2026 (CA)",
+    "date": "Aug 2 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (EXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Semi final",
+    "opponents": "James Wang & Malory Cheng",
+    "score": "15-21, 21-10, 21-18",
+    "result": "Win"
+  },
+  {
+    "tournament": "Sonic Smash 2026 (CA)",
+    "date": "Aug 2 2026",
+    "location": "San Jose, U.S.A.",
+    "event": "Mixed Doubles (EXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Final",
+    "opponents": "Rajesh Mariappan & Shreya Rajesh Kumar",
+    "score": "23-21, 14-21, 15-21",
+    "result": "Loss"
+  },
+  {
     "tournament": "SC Fall Open 2023",
     "date": "Nov 11 2023 to Nov 12 2023",
     "location": "San Jose, U.S.A.",
