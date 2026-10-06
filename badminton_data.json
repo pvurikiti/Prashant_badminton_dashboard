@@ -1,5 +1,27 @@
 [
   {
+    "tournament": "2026 Golden Bear LXXII",
+    "date": "Oct 3 2026",
+    "location": "San Francisco, U.S.A.",
+    "event": "Mixed Doubles (DXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Main Draw",
+    "opponents": "Henry Thomas Cao & Angelina Wang",
+    "score": "12-15, 15-4, 16-18",
+    "result": "Loss"
+  },
+  {
+    "tournament": "2026 Golden Bear LXXII",
+    "date": "Oct 3 2026",
+    "location": "San Francisco, U.S.A.",
+    "event": "Mixed Doubles (DXD)",
+    "partner": "Ashlesha Atrey",
+    "round": "Main Draw",
+    "opponents": "Ke Zheng & Chaemin Lee",
+    "score": "15-12, 15-10",
+    "result": "Win"
+  },
+  {
     "tournament": "2026 EBC Webadminton Charity Tournament",
     "date": "Sep 12 2026",
     "location": "Union City, U.S.A.",
