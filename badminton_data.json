@@ -1,11 +1,88 @@
 [
   {
+    "tournament": "2026 Cardinal Open",
+    "date": "Oct 17 2026",
+    "location": "Union City, U.S.A.",
+    "event": "Mixed Doubles (XD E)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 16",
+    "opponents": "Daniel Lin & Catie Doi",
+    "score": "21-8, 21-9",
+    "result": "Win"
+  },
+  {
+    "tournament": "2026 Cardinal Open",
+    "date": "Oct 17 2026",
+    "location": "Union City, U.S.A.",
+    "event": "Mixed Doubles (XD D)",
+    "partner": "Ashlesha Atrey",
+    "round": "Round of 16",
+    "opponents": "Nikil Selvam & Hannah Kang",
+    "score": "14-21, 16-21",
+    "result": "Loss"
+  },
+  {
+    "tournament": "2026 Cardinal Open",
+    "date": "Oct 17 2026",
+    "location": "Union City, U.S.A.",
+    "event": "Mixed Doubles (XD D)",
+    "partner": "Ashlesha Atrey",
+    "round": "Consolation round of 16",
+    "opponents": "Brian Vien & June Qian",
+    "score": "21-10",
+    "result": "Win"
+  },
+  {
+    "tournament": "2026 Cardinal Open",
+    "date": "Oct 17 2026",
+    "location": "Union City, U.S.A.",
+    "event": "Mixed Doubles (XD E)",
+    "partner": "Ashlesha Atrey",
+    "round": "Quarter Final",
+    "opponents": "Maxwell Chung & Erin Chang",
+    "score": "21-13, 21-13",
+    "result": "Win"
+  },
+  {
+    "tournament": "2026 Cardinal Open",
+    "date": "Oct 17 2026",
+    "location": "Union City, U.S.A.",
+    "event": "Mixed Doubles (XD E)",
+    "partner": "Ashlesha Atrey",
+    "round": "Semi Final",
+    "opponents": "David Yu & Rachel Lum",
+    "score": "Walkover",
+    "result": "Win"
+  },
+  {
+    "tournament": "2026 Cardinal Open",
+    "date": "Oct 17 2026",
+    "location": "Union City, U.S.A.",
+    "event": "Mixed Doubles (XD D)",
+    "partner": "Ashlesha Atrey",
+    "round": "Consolation quarter final",
+    "opponents": "Leo Yuan & Joyce Huang",
+    "score": "13-21",
+    "result": "Loss"
+  },
+  {
+    "tournament": "2026 Cardinal Open",
+    "date": "Oct 17 2026",
+    "location": "Union City, U.S.A.",
+    "event": "Mixed Doubles (XD E)",
+    "partner": "Ashlesha Atrey",
+    "round": "Final",
+    "opponents": "Hugo Lin & Ember Chen",
+    "score": "19-21, 22-20, 21-17",
+    "result": "Win"
+  },
+  {
     "tournament": "2026 Golden Bear LXXII",
     "date": "Oct 3 2026",
     "location": "San Francisco, U.S.A.",
     "event": "Mixed Doubles (DXD)",
     "partner": "Ashlesha Atrey",
-    "round": "Main Draw",
+    "round": "Round of 16",
     "opponents": "Henry Thomas Cao & Angelina Wang",
     "score": "12-15, 15-4, 16-18",
     "result": "Loss"
@@ -16,7 +93,7 @@
     "location": "San Francisco, U.S.A.",
     "event": "Mixed Doubles (DXD)",
     "partner": "Ashlesha Atrey",
-    "round": "Main Draw",
+    "round": "Round of 32",
     "opponents": "Ke Zheng & Chaemin Lee",
     "score": "15-12, 15-10",
     "result": "Win"
@@ -27,7 +104,7 @@
     "location": "Union City, U.S.A.",
     "event": "Mixed Doubles (DXD)",
     "partner": "Ashlesha Atrey",
-    "round": "Main Draw",
+    "round": "Round of 32",
     "opponents": "Keerthi Galla & Siva Chava",
     "score": "10-15, 11-15",
     "result": "Loss"
@@ -38,7 +115,7 @@
     "location": "Union City, U.S.A.",
     "event": "Mixed Doubles (EXD)",
     "partner": "Ashlesha Atrey",
-    "round": "Main Draw",
+    "round": "Round of 32",
     "opponents": "Kaki Cheung & Conny Ng",
     "score": "15-7, 15-8",
     "result": "Win"
@@ -82,7 +159,7 @@
     "location": "Union City, U.S.A.",
     "event": "Mixed Doubles (EXD)",
     "partner": "Ashlesha Atrey",
-    "round": "Main Draw",
+    "round": "Round of 16",
     "opponents": "Quan Hu & Cheryl Zhang",
     "score": "15-10, 15-7",
     "result": "Win"
@@ -93,7 +170,7 @@
     "location": "Union City, U.S.A.",
     "event": "Mixed Doubles (EXD)",
     "partner": "Ashlesha Atrey",
-    "round": "Main Draw",
+    "round": "Quarter Final",
     "opponents": "Bin Chen & Alicia Wen-Yu Wang",
     "score": "15-13, 13-15, 15-8",
     "result": "Win"
@@ -104,7 +181,7 @@
     "location": "Union City, U.S.A.",
     "event": "Mixed Doubles (EXD)",
     "partner": "Ashlesha Atrey",
-    "round": "Main Draw",
+    "round": "Semi Final",
     "opponents": "Jesse Yang & Janet Lin",
     "score": "15-10, 12-15, 12-15",
     "result": "Loss"
@@ -115,7 +192,7 @@
     "location": "Union City, U.S.A.",
     "event": "Men's Doubles (EMD)",
     "partner": "Vish Ramesh",
-    "round": "Main Draw",
+    "round": "Round of 16",
     "opponents": "Abhi Monangi & Dharanidharan Ramasamy Karuppanasamy",
     "score": "8-15, 16-18",
     "result": "Loss"
