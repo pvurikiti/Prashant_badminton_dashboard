@@ -1,5 +1,27 @@
 [
   {
+    "tournament": "HNDRD Aggie Open '26",
+    "date": "Nov 15 2026",
+    "location": "Union City, U.S.A.",
+    "event": "Men's Doubles (MD D)",
+    "partner": "Vish Ramesh",
+    "round": "Main Draw",
+    "opponents": "Jordan Lam & Christopher Aidon Pasion",
+    "score": "21-17, 21-11",
+    "result": "Win"
+  },
+  {
+    "tournament": "HNDRD Aggie Open '26",
+    "date": "Nov 15 2026",
+    "location": "Union City, U.S.A.",
+    "event": "Men's Doubles (MD D)",
+    "partner": "Vish Ramesh",
+    "round": "Main Draw",
+    "opponents": "Mario Lin & Haotian Liu",
+    "score": "18-21, 22-20, 12-21",
+    "result": "Loss"
+  },
+  {
     "tournament": "2026 Cardinal Open",
     "date": "Oct 17 2026",
     "location": "Union City, U.S.A.",
